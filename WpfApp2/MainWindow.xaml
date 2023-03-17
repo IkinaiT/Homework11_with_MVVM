@@ -1,0 +1,171 @@
+﻿<Window x:Class="WpfApp2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="720" Width="1280">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ListBox ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" Grid.Column="0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5">
+                        <TextBlock Text="{Binding Surname}" FontSize="14"/>
+                        <TextBlock Text="{Binding Name}" FontSize="14"/>
+                        <TextBlock Text="{Binding Patronymic}" FontSize="14"/>
+                        <TextBlock Text="{Binding Phone}" FontSize="10"/>
+                        <TextBlock Text="{Binding Passport}" FontSize="10"/>
+                        <TextBlock Text="{Binding LastChangeDateTime}" FontSize="10" Foreground="Gray"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Label Grid.Column="1" 
+               Height="30" 
+               Width="175" 
+               Margin="10,45,0,0" 
+               Content="Фамилия" 
+               HorizontalAlignment="Left" 
+               VerticalAlignment="Top" 
+               RenderTransformOrigin="0,0.5"/>
+
+        <TextBox x:Name="SurnameTextBox" 
+                 Text="{Binding _Surname, UpdateSourceTrigger=PropertyChanged}"
+                 Grid.Column="1" 
+                 Margin="10,80,0,0" 
+                 Width="175" 
+                 RenderTransformOrigin="0.5,0.5" 
+                 HorizontalAlignment="Left" 
+                 Height="30" 
+                 VerticalAlignment="Top" 
+                 IsEnabled="{Binding IsManager}"/>
+
+        <Label Grid.Column="1" 
+               Height="30" 
+               Width="175" 
+               Margin="10,115,0,0"
+               Content="Имя" 
+               HorizontalAlignment="Left" 
+               VerticalAlignment="Top" 
+               RenderTransformOrigin="0,0.5"/>
+
+        <TextBox x:Name="NameTextBox" 
+                 Text="{Binding _Name, UpdateSourceTrigger=PropertyChanged}"
+                 Grid.Column="1" 
+                 Margin="10,150,0,0"
+                 Width="175" 
+                 RenderTransformOrigin="0.5,0.5" 
+                 HorizontalAlignment="Left" 
+                 Height="30" 
+                 VerticalAlignment="Top" 
+                 IsEnabled="{Binding IsManager}"/>
+
+        <Label Grid.Column="1" 
+               Height="30" 
+               Width="175" 
+               Margin="10,185,0,0" 
+               Content="Отчество" 
+               HorizontalAlignment="Left" 
+               VerticalAlignment="Top" 
+               RenderTransformOrigin="0,0.5"/>
+
+        <TextBox x:Name="PatronymicTextBox"
+                 Text="{Binding _Patronymic, UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Column="1" 
+                 Margin="10,215,0,0" 
+                 Width="175" 
+                 RenderTransformOrigin="0.5,0.5" 
+                 HorizontalAlignment="Left" 
+                 Height="30" 
+                 VerticalAlignment="Top"
+                 IsEnabled="{Binding IsManager}" />
+
+        <Label Grid.Column="1" 
+               Height="30" 
+               Width="176" 
+               Margin="10,250,0,0" 
+               Content="Номер телефона" 
+               HorizontalAlignment="Left" 
+               VerticalAlignment="Top" 
+               RenderTransformOrigin="0,0.5"/>
+
+        <TextBox x:Name="PhoneTextBox"
+                 Text="{Binding _Phone, UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Column="1" 
+                 Margin="10,285,0,0" 
+                 Width="176" 
+                 RenderTransformOrigin="0.5,0.5"
+                 HorizontalAlignment="Left" 
+                 Height="30" 
+                 VerticalAlignment="Top" />
+
+        <Label Grid.Column="1" 
+               Height="30" 
+               Width="175" 
+               Margin="10,320,0,0" 
+               Content="Паспорт"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" 
+               RenderTransformOrigin="0,0.5"/>
+
+        <TextBox x:Name="PassportTextBox"
+                 Text="{Binding _Passport, UpdateSourceTrigger=PropertyChanged}"
+                 Grid.Column="1" 
+                 Margin="10,355,0,0"
+                 Width="175"
+                 RenderTransformOrigin="0.5,0.5" 
+                 HorizontalAlignment="Left"
+                 Height="30" 
+                 VerticalAlignment="Top" 
+                 IsEnabled="{Binding IsManager}"/>
+        
+        <Button x:Name="ConfirmButton" 
+                Command="{Binding ChangeData}"
+                Grid.Column="1" 
+                Margin="0,0,10,10" 
+                Content="Изменить" 
+                Height="30" 
+                Width="176" 
+                RenderTransformOrigin="0.5,0.5" 
+                VerticalAlignment="Bottom" 
+                HorizontalAlignment="Right"/>
+        
+        <Button x:Name="AddButton" 
+                Grid.Column="1" 
+                Margin="0,0,0,10" 
+                Content="Добавить" 
+                Height="30" 
+                Width="224" 
+                RenderTransformOrigin="0.5,0.5" 
+                VerticalAlignment="Bottom" 
+                HorizontalAlignment="Center"
+                 IsEnabled="{Binding IsManager}"/>
+       
+        <Button x:Name="DeleteButton" 
+                Command="{Binding DeleteUser}"
+                CommandParameter="{Binding SelectedUser}"
+                Grid.Column="1" 
+                Margin="10,0,0,10" 
+                Content="Удалить" 
+                Height="30" 
+                Width="175" 
+                RenderTransformOrigin="0.5,0.5" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Left"
+                IsEnabled="{Binding IsManager}"/>
+       
+        <Button x:Name="SortButton" 
+                Grid.Column="1"
+                Content="Сортировать по фамилии" 
+                Height="30" RenderTransformOrigin="0.5,0.5" 
+                VerticalAlignment="Bottom"
+                Margin="10,0,10,50"
+                 IsEnabled="{Binding IsManager}"/>
+
+    </Grid>
+</Window>
