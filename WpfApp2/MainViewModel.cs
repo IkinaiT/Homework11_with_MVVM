@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -112,22 +113,25 @@ namespace WpfApp2
             set 
             {
                 selectedUser = value;
-                _Surname = selectedUser.Surname;
-                _Name = selectedUser.Name;
-                _Patronymic = selectedUser.Patronymic;
-                _Phone = selectedUser.Phone;
-                _Passport = selectedUser.Passport;
+                if(selectedUser != null)
+                {
+                    _Surname = selectedUser.Surname;
+                    _Name = selectedUser.Name;
+                    _Patronymic = selectedUser.Patronymic;
+                    _Phone = selectedUser.Phone;
+                    _Passport = selectedUser.Passport;
+                }
                 OnPropertyChanged("SelectedUser");
             }
         }
 
         //Список пользователей
-        public List<User> Users { get; set; }
+        public ObservableCollection<User> Users { get; set; }
         
         //Конструктор VM
         public MainViewModel()
         {
-            Users = new List<User>();
+            Users = new ObservableCollection<User>();
             var result = MessageBox.Show("Вы вошли под аккаунтом консультанта. Хотите переключиться на аккаунт менеджера?", 
                 "Выбор аккаунта",
                 MessageBoxButton.YesNo,
@@ -166,7 +170,7 @@ namespace WpfApp2
             {
                 return deleteUser ??
                     (deleteUser = new RelayCommand(
-                        obj => Users.Remove(obj as User),
+                        obj => Users.Remove(SelectedUser),
                         obj => SelectedUser != null));
             }
         }
