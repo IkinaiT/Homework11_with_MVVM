@@ -14,6 +14,7 @@ namespace WpfApp2
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+        //Переменные для текстовых полей
         private string _surname;
         private string _name;
         private string _patronymic;
@@ -94,6 +95,7 @@ namespace WpfApp2
             }
         }
 
+        //Не понимаю до конца что это, но MVVM без него не пашет(дежа-вю?)
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
@@ -101,9 +103,9 @@ namespace WpfApp2
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
 
+        //Выбранный пользователь в листбоксе
         private User selectedUser;
 
-        public List<User> Users { get; set; }
         public User SelectedUser
         {
             get { return selectedUser; } 
@@ -118,7 +120,11 @@ namespace WpfApp2
                 OnPropertyChanged("SelectedUser");
             }
         }
+
+        //Список пользователей
+        public List<User> Users { get; set; }
         
+        //Конструктор VM
         public MainViewModel()
         {
             Users = new List<User>();
@@ -136,6 +142,7 @@ namespace WpfApp2
             }
         }
 
+        //Изменение данных пользователя
         private RelayCommand changeData;
         public RelayCommand ChangeData
         {
@@ -150,6 +157,8 @@ namespace WpfApp2
             }
         }
 
+        //Удаление потзователя
+        //P. S. НУ И ХУЛЬ ТЫ НЕ ПАШЕШЬ???
         private RelayCommand deleteUser;
         public RelayCommand DeleteUser
         {

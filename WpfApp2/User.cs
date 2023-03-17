@@ -12,7 +12,7 @@ namespace WpfApp2
 {
     public class User : INotifyPropertyChanged
     {
-
+        //Данные пользователя
         private string _name;
         private string _surname;
         private string _patronymic;
@@ -91,7 +91,15 @@ namespace WpfApp2
                 OnPropertyChanged("LastChangeDateTime");
             }
         }
-
+        
+        /// <summary>
+        /// Конструктор класса пользователя
+        /// </summary>
+        /// <param name="name"> Имя</param>
+        /// <param name="surname"> Фамилия</param>
+        /// <param name="patronymic"> Отчество</param>
+        /// <param name="phone">Номер телефона</param>
+        /// <param name="passport">Серия и номер паспорта</param>
         public User(string name, string surname, string patronymic, string phone, string passport)
         {
             Name = name;
@@ -102,6 +110,11 @@ namespace WpfApp2
             LastChangeDateTime = "Создан: " + DateTime.Now.ToString();
         }
 
+        /// <summary>
+        /// Метод изменения данных пользователя
+        /// </summary>
+        /// <param name="user">Новые данные пользователя</param>
+        /// <param name="isManager">Менял ли данные менеджер или консультант</param>
         public void UserDataChange(User user, bool isManager)
         {
             string whatChanged = "Изменено ";
@@ -142,6 +155,8 @@ namespace WpfApp2
                 MessageBox.Show("Ничего не изменилось!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
+
+        //Не понимаю до конца что это, но MVVM без него не пашет
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
