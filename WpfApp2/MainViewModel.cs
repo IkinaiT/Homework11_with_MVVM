@@ -96,7 +96,6 @@ namespace WpfApp2
             }
         }
 
-        //Не понимаю до конца что это, но MVVM без него не пашет(дежа-вю?)
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
@@ -128,7 +127,7 @@ namespace WpfApp2
         //Список пользователей
         public ObservableCollection<User> Users { get; set; }
         
-        //Конструктор VM
+        //Конструктор VM и заолнение списка пользователей
         public MainViewModel()
         {
             Users = new ObservableCollection<User>();
@@ -138,11 +137,13 @@ namespace WpfApp2
                 MessageBoxImage.Question);
 
             isManager = result == MessageBoxResult.Yes;
+            Random r = new Random();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 100; i++)
             {
+                char c = (char)r.Next(97, 123);
                 string passport = (isManager) ? $"Passport{i}" : $"**** ******" ;
-                Users.Add(new User($"Name{i}", $"Surname{i}", $"Patronymic{i}", $"Phone{i}", passport));
+                Users.Add(new User($"Name{i}", $"{c}Surname{i}", $"Patronymic{i}", $"Phone{i}", passport));
             }
         }
 
@@ -161,8 +162,7 @@ namespace WpfApp2
             }
         }
 
-        //Удаление потзователя
-        //P. S. НУ И ХУЛЬ ТЫ НЕ ПАШЕШЬ???
+        //Удаление пользователя
         private RelayCommand deleteUser;
         public RelayCommand DeleteUser
         {
@@ -172,6 +172,48 @@ namespace WpfApp2
                     (deleteUser = new RelayCommand(
                         obj => Users.Remove(SelectedUser),
                         obj => SelectedUser != null));
+            }
+        }
+
+        //Добавление пользователя
+        private RelayCommand addUser;
+        public RelayCommand AddUser
+        {
+            get
+            {
+                return addUser ??
+                    (addUser = new RelayCommand(obj =>
+                        {
+                            if (!string.IsNullOrEmpty(_name) && !string.IsNullOrEmpty(_Surname) && !string.IsNullOrEmpty(_Patronymic) &&
+                               !string.IsNullOrEmpty(_phone) && !string.IsNullOrEmpty(_Passport))
+                                Users.Add(new User(_name, _surname, _patronymic, _phone, _passport));
+                            else
+                                MessageBox.Show("Поля пустые!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        })) ;
+            }
+        }
+
+        //Сортировка пользователей по фамилии
+        private RelayCommand sortUsers;
+        public RelayCommand SortUsers
+        {
+            get
+            {
+                return sortUsers ??
+                    (sortUsers = new RelayCommand(obj =>
+                    {
+                        List<User> _tempUsers = new List<User>();
+                        foreach (User user in Users)
+                        {
+                            _tempUsers.Add(user);
+                        }
+                        _tempUsers.Sort();
+                        Users.Clear();
+                        foreach(User user in _tempUsers)
+                        {
+                            Users.Add(user);
+                        }
+                    }));
             }
         }
     }

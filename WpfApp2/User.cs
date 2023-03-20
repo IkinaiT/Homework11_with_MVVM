@@ -10,7 +10,7 @@ using System.Windows.Documents;
 
 namespace WpfApp2
 {
-    public class User : INotifyPropertyChanged
+    public class User : INotifyPropertyChanged, IComparable<User>
     {
         //Данные пользователя
         private string _name;
@@ -156,12 +156,17 @@ namespace WpfApp2
         }
 
 
-        //Не понимаю до конца что это, но MVVM без него не пашет
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+
+        public int CompareTo(User obj)
+        {
+            if (obj is User user) return Surname.CompareTo(user.Surname);
+            else throw new ArgumentException("Некорректное значение параметра");
         }
     }
 }
